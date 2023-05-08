@@ -7,8 +7,5 @@ RUN R -e "install.packages(c('microbenchmark', 'ggplot2'))"
 # Copy your R script to the container
 COPY benchmark.R /benchmark.R
 
-# Set the working directory
-WORKDIR /
-
 # Run the R script when the container starts
-CMD ["Rscript", "benchmark.R"]
+CMD ["Rscript", "/benchmark.R"]
