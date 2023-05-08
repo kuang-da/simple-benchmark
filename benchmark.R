@@ -1,6 +1,21 @@
 # Load necessary libraries
 library(microbenchmark)
+library(RSQLite)
 
+TABLE_NAME <- "R_benchmark_results"
+
+# Get command line arguments
+args <- commandArgs(trailingOnly = TRUE)
+node_id <- args[1]
+sqlfile_path <- args[2]
+debug_flg <- as.logical(args[3])
+if (debug_flg) {
+  node_id <- "Thelio"
+  sqlfile_path <- "benchmark_results.sqlite"
+}
+print("Start benchmarking...")
+print(paste("node_id:", node_id))
+print(paste("sqlfile_path:", sqlfile_path))
 
 # Define the test function
 test_function_matrix_mul <- function() {
@@ -26,11 +41,33 @@ test_function_lm <- function() {
   lm(y ~ X + 0)
 }
 
-test_function <- function() {
+r_test <- function() {
   test_function_matrix_mul()
   test_function_iterative()
   test_function_lm()
 }
 
-benchmark_results <- microbenchmark(test_function(), times = 100, unit = "ms")
-print(summary(benchmark_results))
+benchmark_results <- microbenchmark(r_test(), times = 100, unit = "ms")
+
+# Add node_id and timestamp to res_df
+res_df <- as.data.frame(summary(benchmark_results))
+res_df$node_id <- node_id
+res_df$timestamp <- Sys.time()
+# Move node_id to the first column
+res_df <- res_df[, c("node_id", "expr", "median", "neval", "min", "lq", "mean", "uq", "max", "timestamp")]
+
+# Save benchmark results to SQLite file
+conn <- dbConnect(SQLite(), dbname = sqlfile_path)
+
+# Check if the "benchmark_results" table exists; if not, create it
+if (!dbExistsTable(conn, TABLE_NAME)) {
+  dbWriteTable(conn, TABLE_NAME, res_df, overwrite = TRUE)
+} else {
+  dbAppendTable(conn, TABLE_NAME, res_df)
+}
+
+# Close the SQLite connection
+dbDisconnect(conn)
+
+# Print the summary of the benchmark results
+print(res_df)

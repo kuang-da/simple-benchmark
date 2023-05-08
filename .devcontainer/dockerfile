@@ -1,7 +1,12 @@
 # Use the official R base image
-FROM r-base:latest
+FROM r-base:4.3.0
 
 # Install necessary R packages
 RUN R -e "install.packages(c('microbenchmark', 'ggplot2'))"
+RUN R -e "install.packages(c('RSQLite'))"
+
 # Setting R language server for VS Code
 RUN R --silent --slave --no-save --no-restore -e "install.packages('languageserver', repos='https://cran.r-project.org/')" 
+
+RUN apt update
+RUN apt install -y git sqlite3
