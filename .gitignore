@@ -1,3 +1,6 @@
+benchmark
+benchmark_results.sqlite
+
 # .gitignore for R projects
 
 # R related files

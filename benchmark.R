@@ -1,6 +1,6 @@
 # Load necessary libraries
 library(microbenchmark)
-library(RSQLite)
+library(DBI)
 
 TABLE_NAME <- "R_benchmark_results"
 
@@ -52,12 +52,13 @@ benchmark_results <- microbenchmark(r_test(), times = 100, unit = "ms")
 # Add node_id and timestamp to res_df
 res_df <- as.data.frame(summary(benchmark_results))
 res_df$node_id <- node_id
-res_df$timestamp <- Sys.time()
+res_df$timestamp <- format(Sys.time(), format = "%Y-%m-%d %H:%M:%S")
+
 # Move node_id to the first column
 res_df <- res_df[, c("node_id", "expr", "median", "neval", "min", "lq", "mean", "uq", "max", "timestamp")]
 
 # Save benchmark results to SQLite file
-conn <- dbConnect(SQLite(), dbname = sqlfile_path)
+conn <- dbConnect(RSQLite::SQLite(), dbname = sqlfile_path)
 
 # Check if the "benchmark_results" table exists; if not, create it
 if (!dbExistsTable(conn, TABLE_NAME)) {

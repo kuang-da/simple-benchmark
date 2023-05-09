@@ -15,12 +15,25 @@ Please use the following instructions to run the benchmark on the computing node
 
 ### Singularity
 
-1. Pull the repository to the 
-1. Pull the Docker image as a Singularity image: `singularity pull docker://kuangda/simple-benchmark`
+1. Pull the repository from GitHub.
+1. Pull the Docker image as a Singularity image: `singularity pull docker://kuangda/simple-benchmark`.
 1. Run the Singularity container and bind your current working directory as a volume: `singularity exec simple-benchmark_latest.sif Rscript /benchmark.R <node-id> <sqlite-file> <debug-flg>`.
 
-`singularity exec simple-benchmark_latest.sif Rscript /benchmark.R $(hostname -s) <sqlite-file> <debug-flg>`.
+Example command for R:
 
+```bash
+singularity exec simple-benchmark_latest.sif Rscript simple-benchmark/benchmark.R $(hostname -s) /home/kuangda/simple-benchmark-test/benchmark_results.sqlite False
+```
+
+Example command for C:
+```
+# Compile
+singularity exec simple-benchmark_latest.sif bash
+Singularity> gcc -o benchmark benchmark.c -lm -lsqlite3
+
+# Run: ./benchmark NODE_ID SQL_FILE DEBUG_FLAG
+./benchmark $(hostname -s) /home/kuangda/simple-benchmark-test/benchmark_results.sqlite FALSE
+```
 ### Docker
 
 1. Pull the Docker image from DockerHub: `docker pull kuangda/simple-benchmark`
