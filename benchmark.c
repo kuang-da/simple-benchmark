@@ -114,9 +114,9 @@ int main(int argc, char *argv[]) {
     // Print the summary of the benchmark results
     printf("\nBenchmark results:\n");
     printf("Node ID: %s\n", node_id);
-    printf("Matrix Multiplication: Median Time (ms) = %f, Iterations = %d\n", elapsed_mat_mul * 1000, times);
-    printf("Sum of Squares Iterative: Median Time (ms) = %f, Iterations = %d\n", elapsed_sum_of_square * 1000, times);
-    printf("Total: Median Time (ms) = %f, Iterations = %d\n", elapsed_total * 1000, times);
+    printf("Matrix Multiplication: Median Time (ms) = %f, Iterations = %d\n", elapsed_mat_mul, times);
+    printf("Sum of Squares Iterative: Median Time (ms) = %f, Iterations = %d\n", elapsed_sum_of_square, times);
+    printf("Total: Median Time (ms) = %f, Iterations = %d\n", elapsed_total, times);
 
     // Close the SQLite connection
     sqlite3_close(db);
