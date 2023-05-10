@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
     }
     clock_gettime(CLOCK_MONOTONIC, &end);
     // Elaps in miliseconds
-    elapsed_mat_mul = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1000000000.0 * 1000;
+    elapsed_mat_mul = ((end.tv_sec - start.tv_sec) * 1000) + (end.tv_nsec - start.tv_nsec) / 1000000.0;
 
     // Benchmark sum of squares iterative
     clock_gettime(CLOCK_MONOTONIC, &start);
@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
     }
     clock_gettime(CLOCK_MONOTONIC, &end);
     // Elaps in miliseconds
-    elapsed_sum_of_square = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1000000000.0 * 1000;
+    elapsed_sum_of_square = ((end.tv_sec - start.tv_sec) * 1000) + (end.tv_nsec - start.tv_nsec) / 1000000.0;
 
     // Calculate the overall time
     double elapsed_total = elapsed_mat_mul + elapsed_sum_of_square;
