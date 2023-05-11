@@ -1,6 +1,6 @@
 benchmark
 benchmark_results.sqlite
-
+.idea
 # .gitignore for R projects
 
 # R related files

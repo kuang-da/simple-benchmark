@@ -13,8 +13,8 @@
 	"runArgs": [
 		// Ref: https://github.com/twsl/vscode-dev-containers/blob/feature/python-cuda/containers/python-3-cuda/.devcontainer/devcontainer.json
 		// Requires WSL2, see https://docs.nvidia.com/cuda/wsl-user-guide/index.html#wsl2-system-requirements
-		"--gpus=all",
-		"--shm-size=32gb"
+		// "--gpus=all",
+		// "--shm-size=32gb"
 	],
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
